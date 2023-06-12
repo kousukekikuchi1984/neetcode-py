@@ -9,26 +9,20 @@ class ListNode:
 
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        window = []
-        cur = head
-        length = 0
-        while cur:
-            length += 1
-            window.append(cur)
-            if len(window) == n + 1 + 1:
-                del window[0]
-            cur = cur.next
+        dummy = ListNode(0, head)
+        left = dummy
+        right = head
 
-        if len(window) == n + 1:
-            if len(window) <= 2:
-                window[0].next = None
-            else:
-                window[0].next = window[2]
-        elif len(window) == n:
-            if n == 1:
-                head = None
-            else:
-                head = window[1]
-        else:
-            assert False, "*** unreachable"
-        return head
+        while n > 0:
+            assert right
+            right = right.next
+            n -= 1
+
+        while right:
+            assert left
+            left = left.next
+            right = right.next
+
+        assert left and left.next
+        left.next = left.next.next
+        return dummy.next
