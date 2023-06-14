@@ -1,3 +1,4 @@
+import heapq
 from typing import Optional
 
 
@@ -26,3 +27,20 @@ class Solution:
         assert left and left.next
         left.next = left.next.next
         return dummy.next
+
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        heap = []
+
+        for listnode in lists:
+            while listnode:
+                heapq.heappush(heap, listnode.val)
+                listnode = listnode.next
+
+        current_node = ListNode()
+        first_node = current_node
+        while len(heap) > 0:
+            current_node.next = ListNode()
+            val = heapq.heappop(heap)
+            current_node = current_node.next
+            current_node.val = val
+        return first_node.next
