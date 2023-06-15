@@ -1,5 +1,5 @@
 import heapq
-from typing import Optional
+from typing import Optional, List
 
 
 class ListNode:
@@ -44,3 +44,26 @@ class Solution:
             current_node = current_node.next
             current_node.val = val
         return first_node.next
+
+    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+        if k == 1 or not head:
+            return head
+
+        stack = []
+        dummy = ListNode(next=head)
+        prev = dummy
+        cur = head
+
+        while cur:
+            for _ in range(k):
+                if not cur:
+                    break
+                stack.append(cur)
+                cur = cur.next
+
+            if len(stack) == k:
+                while stack:
+                    prev.next = stack.pop()
+                    prev = prev.next
+                prev.next = cur
+        return dummy.next
