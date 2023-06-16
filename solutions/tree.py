@@ -17,3 +17,12 @@ class Solution:
         _invert_tree(root)
         return root
         
+     def maxDepth(self, root: Optional[TreeNode]) -> int:
+        def _max_depth(root: Optional[TreeNode], val: int) -> int:
+            if root is None:
+                return val
+            left = _max_depth(root.left, val + 1)
+            right = _max_depth(root.right, val + 1)
+            return max([left, right])
+
+        return _max_depth(root, 0)
