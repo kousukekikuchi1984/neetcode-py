@@ -26,3 +26,18 @@ class Solution:
             return max([left, right])
 
         return _max_depth(root, 0)
+
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        result = 0
+        def _max_depth(root: Optional[TreeNode]) -> int:
+            nonlocal result
+
+            if root is None:
+                return 0
+            left = _max_depth(root.left)
+            right = _max_depth(root.right)
+            result = max(result, left + right)
+            return 1 + max(left, right)
+
+        _max_depth(root)
+        return result
