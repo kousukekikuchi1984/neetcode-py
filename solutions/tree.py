@@ -41,3 +41,15 @@ class Solution:
 
         _max_depth(root)
         return result
+
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+        def _max_depth(root: Optional[TreeNode], depth: int) -> Tuple[bool, int]:
+            if root is None:
+                return  [True, 1]
+
+            left = _max_depth(root.left, depth + 1)
+            right = _max_depth(root.right, depth + 1)
+            balanced = left[0] and right[0] and abs(right[1] - left[1]) <= 1
+            return balanced, max(right[1], left[1])
+        
+        return _max_depth(root, 0)[0]
