@@ -53,3 +53,18 @@ class Solution:
             return balanced, max(right[1], left[1])
         
         return _max_depth(root, 0)[0]
+
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def _dfs(p: Optional[TreeNode], q: Optional[TreeNode]):
+            if not p and not q:
+                return True
+            if (not p and q) or (p and not q):
+                return False
+
+            if p.val != q.val:
+                return False
+
+            left  = _dfs(p.left, q.left)
+            right = _dfs(p.right, q.right)
+            return left and right
+        return _dfs(p, q)
