@@ -68,3 +68,29 @@ class Solution:
             right = _dfs(p.right, q.right)
             return left and right
         return _dfs(p, q)
+
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        candidates = []
+        def _find_subroot_top(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+            if root is None:
+                return False
+            # root and subroot is [1, 2000) 
+            if root.val == subRoot.val:
+                candidates.append(root)
+                return True
+            return _find_subroot_top(root.left, subRoot) or _find_subroot_top(root.right, subRoot)
+
+        def _check_subroot(root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+            if not root and not subRoot:
+                return True
+            if (not root and subRoot) or (root and not subRoot):
+                return False
+            if root != subRoot:
+                return False
+            return _check_subroot(root.left, subRoot.left) and _check_subroot(root.right, subRoot.right)
+
+        _find_subroot_top(root, subRoot)
+        for node in candidates:
+            if _check_subroot(node, subRoot):
+                return True
+        return False
