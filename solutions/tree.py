@@ -94,3 +94,13 @@ class Solution:
             if _check_subroot(node, subRoot):
                 return True
         return False
+
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        while root:
+            if root.val > p.val and root.val > q.val:
+                root = root.left
+            elif root.val < p.val and root.val < q.val:
+                root = root.right
+            else:
+                return root
+        assert False, "`p` and `q` will exist in the BST"
