@@ -104,3 +104,15 @@ class Solution:
             else:
                 return root
         assert False, "`p` and `q` will exist in the BST"
+
+    def goodNodes(self, root: TreeNode) -> int:
+        def dfs(node: Optional[TreeNode], maxval = int) -> int:
+            if node is None:
+                return 0
+           
+            cnt = int(node.val >= maxval)
+            maxval = max(maxval, node.val)
+            left = dfs(node.left, maxval)
+            right = dfs(node.right, maxval)
+            return left + right + cnt
+        return dfs(root, root.val)
