@@ -116,3 +116,14 @@ class Solution:
             right = dfs(node.right, maxval)
             return left + right + cnt
         return dfs(root, root.val)
+
+    def isValidBST(self, root: Optional[TreeNode]) -> bool:
+        def is_valid(root: Optional[TreeNode], left: int, right: int) -> bool:
+            if root is None:
+                return True
+            if not (left < root.val < right):
+                return False
+
+            return is_valid(root.left, left, root.val) and is_valid(root.right, root.val, right)
+        return is_valid(root, float("-inf"), float("inf"))
+
