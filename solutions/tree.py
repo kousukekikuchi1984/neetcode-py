@@ -127,3 +127,19 @@ class Solution:
             return is_valid(root.left, left, root.val) and is_valid(root.right, root.val, right)
         return is_valid(root, float("-inf"), float("inf"))
 
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        result = -1001
+        def dfs(root: Optional[TreeNode]) -> int:
+            nonlocal result
+            if root is None:
+                return 0
+            left = dfs(root.left)
+            right = dfs(root.right)
+            left = max(left, 0)
+            right = max(right, 0)
+            current_max = max(root.val, root.val + left, root.val + right, root.val + left + right)
+            result = max(result, current_max)
+            return root.val + max(left, right)
+
+        dfs(root)
+        return result
