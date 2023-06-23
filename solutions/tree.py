@@ -143,3 +143,32 @@ class Solution:
 
         dfs(root)
         return result
+
+
+class Codec:
+
+    def serialize(self, root: TreeNode):
+        vals = []
+        def dfs(root: Optional[TreeNode]):
+            if root is None:
+                vals.append("N")
+                return
+            vals.append(str(root.val))
+            dfs(root.left)
+            dfs(root.right)
+        dfs(root)
+        return ",".join(vals)
+        
+
+    def deserialize(self, data: str):
+        vals = data.split(",")
+
+        def dfs() -> Optional[TreeNode]:
+            val = vals.pop(0)
+            if val == "N":
+                return None
+            node = TreeNode(val=int(val)) 
+            node.left = dfs()
+            node.right = dfs()
+            return node
+        return dfs()
