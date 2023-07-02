@@ -172,3 +172,33 @@ class Codec:
             node.right = dfs()
             return node
         return dfs()
+
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        maxY = len(heights) - 1
+        maxX = len(heights[0]) - 1
+
+        def dfs(x: int, y: int):
+            if x < 0 or y < 0:
+                # pacific ocean
+                return 1
+            if x > maxX or y > maxX:
+                return 2
+            dxs = [1, 0, 0, -1]
+            dys = [0, 1, -1, 0]
+            oceans = {}
+            for (dx, dy) in zip(dxs, dys):
+                newx, newy = x + dx, y + dy
+                if heights[newy][newx] > heights[y][x]:
+                    continue
+                else:
+                    res = dfs(newx, newy)
+                    oceans.add(res)
+            return sum(oceans)
+
+        res = []
+        for y in range(maxY):
+            for x in range(maxX):
+                ocean = dfs(x, y)
+                if ocean == 3:
+                    res.append([y, x])
+        return res
