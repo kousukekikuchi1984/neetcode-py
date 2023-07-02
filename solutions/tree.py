@@ -174,31 +174,36 @@ class Codec:
         return dfs()
 
     def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
-        maxY = len(heights) - 1
-        maxX = len(heights[0]) - 1
+        ROWS, COLS = len(heights), len(heights[0])
+        pac, atl = set(), set()
 
-        def dfs(x: int, y: int):
-            if x < 0 or y < 0:
-                # pacific ocean
-                return 1
-            if x > maxX or y > maxX:
-                return 2
-            dxs = [1, 0, 0, -1]
-            dys = [0, 1, -1, 0]
-            oceans = {}
-            for (dx, dy) in zip(dxs, dys):
-                newx, newy = x + dx, y + dy
-                if heights[newy][newx] > heights[y][x]:
-                    continue
-                else:
-                    res = dfs(newx, newy)
-                    oceans.add(res)
-            return sum(oceans)
+        def dfs(r, c, visit, prevHeight):
+            if (
+                (r, c) in visit
+                or r < 0
+                or c < 0
+                or r == ROWS
+                or c == COLS
+                or heights[r][c] < prevHeight
+            ):
+                return
+            visit.add((r, c))
+            dfs(r + 1, c, visit, heights[r][c])
+            dfs(r - 1, c, visit, heights[r][c])
+            dfs(r, c + 1, visit, heights[r][c])
+            dfs(r, c - 1, visit, heights[r][c])
+
+        for c in range(COLS):
+            dfs(0, c, pac, heights[0][c])
+            dfs(ROWS - 1, c, atl, heights[ROWS - 1][c])
+
+        for r in range(ROWS):
+            dfs(r, 0, pac, heights[r][0])
+            dfs(r, COLS - 1, atl, heights[r][COLS - 1])
 
         res = []
-        for y in range(maxY):
-            for x in range(maxX):
-                ocean = dfs(x, y)
-                if ocean == 3:
-                    res.append([y, x])
+        for r in range(ROWS):
+            for c in range(COLS):
+                if (r, c) in pac and (r, c) in atl:
+                    res.append([r, c])
         return res
