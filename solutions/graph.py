@@ -91,3 +91,23 @@ class Solution:
                             q.append(neighbor)
             res += 1
         return 0
+
+    def findItinerary(self, tickets: List[List[str]]) -> List[str]:
+        graph = collections.defaultdict(list)
+        for ticket in tickets:
+            heapq.heappush(graph[ticket[0]], ticket[1])
+        #
+        result = []
+        q = deque(["JFK"])
+        while q:
+            from_airport = q.popleft()
+            result.append(from_airport)
+            to_airports = graph[from_airport]
+            try:
+                to_airport = heapq.heappop(to_airports)
+                q.append(to_airport)
+            except IndexError:
+                pass
+        if all([v == [] for v in graph.values()]):
+            return result
+        assert False, "*** unreachable"
