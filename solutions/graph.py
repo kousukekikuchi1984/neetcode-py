@@ -97,17 +97,13 @@ class Solution:
         for ticket in tickets:
             heapq.heappush(graph[ticket[0]], ticket[1])
         #
-        result = []
-        q = deque(["JFK"])
-        while q:
-            from_airport = q.popleft()
-            result.append(from_airport)
-            to_airports = graph[from_airport]
-            try:
-                to_airport = heapq.heappop(to_airports)
-                q.append(to_airport)
-            except IndexError:
-                pass
-        if all([v == [] for v in graph.values()]):
-            return result
-        assert False, "*** unreachable"
+        result = deque([])
+
+        def dfs(current: str):
+            while graph[current]:
+                to_airport = heapq.heappop(graph[current])
+                dfs(to_airport)
+            result.appendleft(current)
+
+        dfs("JFK")
+        return result
