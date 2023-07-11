@@ -34,3 +34,17 @@ class Solution:
             return res
 
         return dfs(0)
+
+    def maxProduct(self, nums: List[int]) -> int:
+        cur_min = cur_max = 1
+        res = nums[0]
+        for n in nums:
+            if n == 0:
+                cur_min = cur_max = 1
+                continue
+            multiply_to_max = cur_max * n
+            multiply_to_min = cur_min * n
+            cur_min = min(multiply_to_max, multiply_to_min, n)
+            cur_max = max(multiply_to_max, multiply_to_min, n)
+            res = max(res, cur_max)
+        return res
