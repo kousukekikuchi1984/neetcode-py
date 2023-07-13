@@ -72,3 +72,24 @@ class Solution:
                 if nums[i] < nums[j]:
                     dp[i] = max(dp[i], 1 + dp[j])
         return max(dp)
+
+    def maxProfit(self, prices: List[int]) -> int:
+        dp = {}  # (i, for_buy) -> max profit
+
+        def dfs(i: int, for_buy: bool) -> int:
+            if i >= len(prices):
+                return 0
+            if dp.get((i, for_buy)):
+                return dp[(i, for_buy)]
+
+            # cooldown does nothing.
+            cooldown = dfs(i + 1, for_buy)
+            if for_buy:
+                buy = dfs(i + 1, not for_buy) - prices[i]
+                dp[(i, for_buy)] = max(cooldown, buy)
+            else:
+                sell = dfs(i + 2, not for_buy) + prices[i]
+                dp[(i, for_buy)] = max(cooldown, sell)
+            return dp[(i, for_buy)]
+
+        return dfs(0, True)
