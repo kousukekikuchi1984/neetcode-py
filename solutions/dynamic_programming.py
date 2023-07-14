@@ -93,3 +93,28 @@ class Solution:
             return dp[(i, for_buy)]
 
         return dfs(0, True)
+
+    def longestIncreasingPath(self, matrix: List[List[int]]) -> int:
+        dp = {}  # (i, j): longest increasing path
+
+        def dfs(i: int, j: int, move_from: int) -> int:
+            if not 0 <= i < len(matrix) or not 0 <= j < len(matrix[0]):
+                return 0
+            if matrix[i][j] <= move_from:
+                return 0
+            if dp.get((i, j)):
+                return dp[i, j]
+
+            can_move_to = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+            values = []
+            for (di, dj) in can_move_to:
+                val = dfs(i + di, j + dj, matrix[i][j])
+                values.append(val)
+            current = max(values) + 1
+            dp[(i, j)] = current
+            return current
+
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                dfs(i, j, 0)
+        return max(dp.values())
