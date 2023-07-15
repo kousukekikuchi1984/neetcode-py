@@ -118,3 +118,24 @@ class Solution:
             for j in range(len(matrix[0])):
                 dfs(i, j, 0)
         return max(dp.values())
+
+    def maxCoins(self, nums: List[int]) -> int:
+        nums = [1] + nums + [1]
+        dp = {}  # (L, R): val
+
+        def dfs(left: int, right: int) -> int:
+            # ここだけ
+            if left > right:
+                return 0
+            if dp.get((left, right)):
+                return dp[(left, right)]
+            total_coins = []
+            for partition in range(left, right + 1):
+                current = nums[left - 1] * nums[partition] * nums[right + 1]
+                total = dfs(left, partition - 1) + current + dfs(partition + 1, right)
+                total_coins.append(total)
+            max_coins = max(total_coins)
+            dp[(left, right)] = max_coins
+            return max_coins
+
+        return dfs(1, len(nums) - 2)
