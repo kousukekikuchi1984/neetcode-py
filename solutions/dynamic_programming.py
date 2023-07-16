@@ -67,7 +67,7 @@ class Solution:
 
     def lengthOfLIS(self, nums: List[int]) -> int:
         dp = [1] * len(nums)
-        for i in range(len(nums) -1, -1, -1):
+        for i in range(len(nums) - 1, -1, -1):
             for j in range(i + 1, len(nums)):
                 if nums[i] < nums[j]:
                     dp[i] = max(dp[i], 1 + dp[j])
@@ -107,7 +107,7 @@ class Solution:
 
             can_move_to = [(1, 0), (0, 1), (-1, 0), (0, -1)]
             values = []
-            for (di, dj) in can_move_to:
+            for di, dj in can_move_to:
                 val = dfs(i + di, j + dj, matrix[i][j])
                 values.append(val)
             current = max(values) + 1
@@ -140,27 +140,36 @@ class Solution:
 
         return dfs(1, len(nums) - 2)
 
-    def isMatch(self, s: str, p: str) -> bool:
-        if p[0] == "*" or (s[0] != p[0] and p[0] != "."):
-            return False
 
-        dp = [[False] * len(s) for _ in range(len(p))]
-        dp[0][0] = True  # already confirmed
-        for column in range(1, len(p)):
-            for row in range(1, len(s)):
-                # former state
-                former_state = dp[column - 1][row - 1]
-                current_regex = p[column]
+class Solution:
+    def isMatch(self, s: str, p: str) -> bool:
+        # dp: columns: p + 1, index 0 means empty string
+        #     rows: s + 1, index 0 means empty string
+        #     dp[n][0] == True means starting points.
+
+        dp = [[False] * (len(s) + 1) for _ in range(len(p) + 1)]
+        dp[0][0] = True
+
+        # regex "*" can be a starting point when ignore former letter
+        for row in range(2, len(p) + 1):
+            if p[row - 1] == "*":
+                dp[row][0] = dp[row - 2][0]
+
+        for row in range(1, len(p) + 1):
+            for column in range(1, len(s) + 1):
+                former_state = dp[row - 1][column - 1]
+                current_regex = p[row - 1]
                 match current_regex:
                     case "*":
-                        if p[column - 1] == ".":
-                            dp[column][row] = True
-                        else:
-                            dp[column][row] = p[column - 1] == s[row]
+                        # ignore former regex -> use the value at row - 2
+                        # if regex is matched -> ignore case or former state
+                        dp[row][column] = dp[row - 2][column]
+                        if p[row - 2] == "." or p[row - 2] == s[column - 1]:
+                            dp[row][column] |= former_state
                     case ".":
-                        if former_state:
-                            dp[column][row] = True
+                        dp[row][column] = former_state
                     case _:
-                        if former_state and s[row] == p[column]:
-                            dp[column][row] = True
-        return dp[len(p) - 1][len(s) - 1]
+                        dp[row][column] = (
+                            former_state and current_regex == s[column - 1]
+                        )
+        return dp[len(p)][len(s)]
