@@ -140,8 +140,6 @@ class Solution:
 
         return dfs(1, len(nums) - 2)
 
-
-class Solution:
     def isMatch(self, s: str, p: str) -> bool:
         # dp: columns: p + 1, index 0 means empty string
         #     rows: s + 1, index 0 means empty string
@@ -159,17 +157,12 @@ class Solution:
             for column in range(1, len(s) + 1):
                 former_state = dp[row - 1][column - 1]
                 current_regex = p[row - 1]
-                match current_regex:
-                    case "*":
-                        # ignore former regex -> use the value at row - 2
-                        # if regex is matched -> ignore case or former state
-                        dp[row][column] = dp[row - 2][column]
-                        if p[row - 2] == "." or p[row - 2] == s[column - 1]:
-                            dp[row][column] |= former_state
-                    case ".":
-                        dp[row][column] = former_state
-                    case _:
-                        dp[row][column] = (
-                            former_state and current_regex == s[column - 1]
-                        )
+                if s[column - 1] == current_regex or current_regex == ".":
+                    dp[row][column] = former_state
+                elif p[row - 1] == "*":
+                      # ignore former regex -> use the value at row - 2
+                      # if regex is matched -> ignore case or former column
+                      dp[row][column] = dp[row - 2][column]
+                      if p[row - 2] == "." or p[row - 2] == s[column - 1]:
+                          dp[row][column] |= dp[row][column -1]
         return dp[len(p)][len(s)]
