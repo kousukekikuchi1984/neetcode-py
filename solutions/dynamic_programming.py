@@ -141,5 +141,26 @@ class Solution:
         return dfs(1, len(nums) - 2)
 
     def isMatch(self, s: str, p: str) -> bool:
-        import re
-        return re.fullmatch(p, s) is not None
+        if p[0] == "*" or (s[0] != p[0] and p[0] != "."):
+            return False
+
+        dp = [[False] * len(s) for _ in range(len(p))]
+        dp[0][0] = True  # already confirmed
+        for column in range(1, len(p)):
+            for row in range(1, len(s)):
+                # former state
+                former_state = dp[column - 1][row - 1]
+                current_regex = p[column]
+                match current_regex:
+                    case "*":
+                        if p[column - 1] == ".":
+                            dp[column][row] = True
+                        else:
+                            dp[column][row] = p[column - 1] == s[row]
+                    case ".":
+                        if former_state:
+                            dp[column][row] = True
+                    case _:
+                        if former_state and s[row] == p[column]:
+                            dp[column][row] = True
+        return dp[len(p) - 1][len(s) - 1]
