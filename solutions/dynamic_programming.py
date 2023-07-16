@@ -139,3 +139,7 @@ class Solution:
             return max_coins
 
         return dfs(1, len(nums) - 2)
+
+    def isMatch(self, s: str, p: str) -> bool:
+        import re
+        return re.fullmatch(p, s) is not None
