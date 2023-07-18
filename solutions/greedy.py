@@ -17,3 +17,20 @@ class Solution:
             right = max_jump
             res += 1
         return res
+
+    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+        if sum(gas) < sum(cost):
+            return -1
+
+        n = len(gas)
+        idx = 100000  # limited to 10^5
+        min_value = 10000  # limited to 10^4
+        gas_remaining = 0
+        for i in range(n):
+            gas_remaining += gas[i] - cost[i]
+            if gas_remaining < 0:
+                gas_remaining = 0
+                idx = 100000
+            else:
+                idx = min(idx, i)
+        return idx
