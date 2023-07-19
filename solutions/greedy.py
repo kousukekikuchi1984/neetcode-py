@@ -22,15 +22,11 @@ class Solution:
         if sum(gas) < sum(cost):
             return -1
 
-        n = len(gas)
-        idx = 100000  # limited to 10^5
-        min_value = 10000  # limited to 10^4
+        idx = 0
         gas_remaining = 0
-        for i in range(n):
+        for i in range(len(gas)):
             gas_remaining += gas[i] - cost[i]
             if gas_remaining < 0:
                 gas_remaining = 0
-                idx = 100000
-            else:
-                idx = min(idx, i)
+                idx = i + 1
         return idx
