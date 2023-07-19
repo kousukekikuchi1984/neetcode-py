@@ -34,23 +34,24 @@ class Solution:
     def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
         if len(hand) % groupSize != 0:
             return False
+        hands = {}
+        for val in hand:
+            if val in hands:
+                hands[val] += 1
+            else:
+                hands[val] = 1
 
-        hand.sort()
-  
-        groups = []
-        for _ in range(int(len(hand) / groupSize)):
-            groups.append([])
+        heap = heapq(hands.keys())
+        heapq.heapify(heap)
+        while heap:
+            first = heap[0]
 
-
-        for num in hand:
-            hit = False
-            for group in groups:
-                if len(group) == groupSize:
-                    continue
-                if len(group) == 0 or group[len(group) - 1] + 1 == num:
-                    group.append(num)
-                    hit = True
-                    break
-            if not hit:
-                return False
+            for i in range(first, first + groupSize):
+                if i not in hands:
+                    return False
+                hands[i] -= 1
+                if hands[i] == 0:
+                    if i != heap[0]:
+                        return False
+                    heapq.heappop(heap)
         return True
