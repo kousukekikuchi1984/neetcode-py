@@ -30,3 +30,27 @@ class Solution:
                 gas_remaining = 0
                 idx = i + 1
         return idx
+
+    def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+        if len(hand) % groupSize != 0:
+            return False
+
+        hand.sort()
+  
+        groups = []
+        for _ in range(int(len(hand) / groupSize)):
+            groups.append([])
+
+
+        for num in hand:
+            hit = False
+            for group in groups:
+                if len(group) == groupSize:
+                    continue
+                if len(group) == 0 or group[len(group) - 1] + 1 == num:
+                    group.append(num)
+                    hit = True
+                    break
+            if not hit:
+                return False
+        return True
