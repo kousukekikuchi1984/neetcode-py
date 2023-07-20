@@ -57,13 +57,12 @@ class Solution:
         return True
 
      def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
-        available_triplets = []
-        for i in range(len(triplets)):
-            if all([ triplets[i][j] <= target[j]  for j in range(len(triplets[i]))]):
-                available_triplets.append(triplets[i])
-        if not available_triplets:
-            return False
-        for i, row in enumerate(zip(*available_triplets)):
-            if max(row) != target[i]:
-                return False
-        return True
+        current = [False, False, False]
+
+        for triplet in triplets:
+            if triplet[0] > target[0] or triplet[1] > target[1] or triplet[2] > target[2]:
+                continue
+            for i in range(3):
+                if triplet[i] == target[i]:
+                    current[i] = True
+        return all(current)
