@@ -55,3 +55,15 @@ class Solution:
                         return False
                     heapq.heappop(heap)
         return True
+
+     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+        available_triplets = []
+        for i in range(len(triplets)):
+            if all([ triplets[i][j] <= target[j]  for j in range(len(triplets[i]))]):
+                available_triplets.append(triplets[i])
+        if not available_triplets:
+            return False
+        for i, row in enumerate(zip(*available_triplets)):
+            if max(row) != target[i]:
+                return False
+        return True
