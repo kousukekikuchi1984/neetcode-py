@@ -56,13 +56,42 @@ class Solution:
                     heapq.heappop(heap)
         return True
 
-     def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+    def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
         current = [False, False, False]
 
         for triplet in triplets:
-            if triplet[0] > target[0] or triplet[1] > target[1] or triplet[2] > target[2]:
+            if (
+                triplet[0] > target[0]
+                or triplet[1] > target[1]
+                or triplet[2] > target[2]
+            ):
                 continue
             for i in range(3):
                 if triplet[i] == target[i]:
                     current[i] = True
         return all(current)
+
+    def partitionLabels(self, s: str) -> List[int]:
+        words = {}  # char, [start, end]
+        for i, c in enumerate(s):
+            if c in words:
+                words[c][1] = i
+            else:
+                words[c] = [i, i]
+
+        results = []
+        start = end = 0
+        is_first = True
+        for r in words.values():
+            if is_first:
+                start, end = r[0], r[1]
+                is_first = False
+                continue
+            if start < r[0] < end:
+                if r[1] > end:
+                    end = r[1]
+            elif end < r[0]:
+                results.append(end - start + 1)
+                start, end = r[0], r[1]
+        results.append(end - start + 1)
+        return results
