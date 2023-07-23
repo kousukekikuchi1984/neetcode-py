@@ -25,3 +25,15 @@ class Solution:
                 end = intervals[i][1]
         merged.append([start, end])
         return merged
+
+    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key=lambda x: (x[0], x[1]))
+        start, end = intervals[0][0], intervals[0][1]
+        elased = 0
+        for i in range(1, len(intervals)):
+            if end <= intervals[i][0]:
+                start, end = intervals[i][0], intervals[i][1]
+            else:
+                elased += 1
+                end = min(end, intervals[i][1])
+        return elased
