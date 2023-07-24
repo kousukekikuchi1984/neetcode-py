@@ -42,3 +42,20 @@ class Solution:
                 elased += 1
                 end = min(end, intervals[i][1])
         return elased
+
+    def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
+        range_intervals = [[range(interval[0], interval[1] + 1), interval[1] - interval[0] + 1] for interval in intervals]
+        range_intervals = sorted(range_intervals, key=lambda x: x[1])
+        #
+        results = []
+        for query in queries:
+            found = False
+            for interval in range_intervals:
+                if query in interval[0]:
+                    results.append(interval[1])
+                    found = True
+                    break
+            if not found:
+                results.append(-1)
+        return results
+
