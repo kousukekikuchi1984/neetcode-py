@@ -44,18 +44,17 @@ class Solution:
         return elased
 
     def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
-        range_intervals = [[range(interval[0], interval[1] + 1), interval[1] - interval[0] + 1] for interval in intervals]
-        range_intervals = sorted(range_intervals, key=lambda x: x[1])
-        #
-        results = []
-        for query in queries:
-            found = False
-            for interval in range_intervals:
-                if query in interval[0]:
-                    results.append(interval[1])
-                    found = True
-                    break
-            if not found:
-                results.append(-1)
-        return results
+        intervals.sort()
+        heap = []
+        results = {}
+        i = 0
+        for q in sorted(queries):
+            while i < len(intervals) and intervals[i][0] <= q:
+                left, right = intervals[i]
+                heapq.heappush(heap, (right - left + 1, right))
+                i += 1
 
+            while heap and heap[0][1] < q:
+                heapq.heappop(heap)
+            results[q] = heap[0][0] if heap else -1
+        return [results[q] for q in queries]
