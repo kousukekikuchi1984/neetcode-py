@@ -1,13 +1,14 @@
 from typing import Dict, Tuple
 
+
 class Node:
-    def __init__(self, val = 0, neighbors = None):
+    def __init__(self, val=0, neighbors=None):
         self.val = val
         self.neighbors = neighbors if neighbors is not None else []
 
 
 class Solution:
-    def cloneGraph(self, node: 'Node') -> 'Node':
+    def cloneGraph(self, node: "Node") -> "Node":
         newnodes = {}
 
         def dfs(node: Node):
@@ -49,7 +50,9 @@ class Solution:
                 else:
                     continue
 
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
+    def findCheapestPrice(
+        self, n: int, flights: List[List[int]], src: int, dst: int, k: int
+    ) -> int:
         prices = [float("inf")] * n
         prices[src] = 0
 
@@ -72,7 +75,7 @@ class Solution:
         wordList.append(beginWord)
         for word in wordList:
             for j in range(len(word)):
-                pattern = word[:j] + "*" + word[j+1:]
+                pattern = word[:j] + "*" + word[j + 1 :]
                 neighbors[pattern].append(word)
 
         visited = set([beginWord])
@@ -84,7 +87,7 @@ class Solution:
                 if word == endWord:
                     return res
                 for j in range(len(word)):
-                    pattern = word[:j] + "*" + word[j+1:]
+                    pattern = word[:j] + "*" + word[j + 1 :]
                     for neighbor in neighbors[pattern]:
                         if neighbor not in visited:
                             visited.add(neighbor)

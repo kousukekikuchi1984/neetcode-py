@@ -160,9 +160,9 @@ class Solution:
                 if s[column - 1] == current_regex or current_regex == ".":
                     dp[row][column] = former_state
                 elif p[row - 1] == "*":
-                      # ignore former regex -> use the value at row - 2
-                      # if regex is matched -> ignore case or former column
-                      dp[row][column] = dp[row - 2][column]
-                      if p[row - 2] == "." or p[row - 2] == s[column - 1]:
-                          dp[row][column] |= dp[row][column -1]
+                    # ignore former regex -> use the value at row - 2
+                    # if regex is matched -> ignore case or former column
+                    dp[row][column] = dp[row - 2][column]
+                    if p[row - 2] == "." or p[row - 2] == s[column - 1]:
+                        dp[row][column] |= dp[row][column - 1]
         return dp[len(p)][len(s)]

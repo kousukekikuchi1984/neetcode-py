@@ -99,13 +99,13 @@ class Solution:
     def checkValidString(self, s: str) -> bool:
         left_min = left_max = 0
         for c in s:
-            if c == '(':
+            if c == "(":
                 left_min += 1
                 left_max += 1
-            elif c == ')':
+            elif c == ")":
                 left_min -= 1
                 left_max -= 1
-            elif c == '*':
+            elif c == "*":
                 left_min -= 1
                 left_max += 1
             else:

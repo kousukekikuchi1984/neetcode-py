@@ -3,12 +3,12 @@ class Solution:
         if n == 0:
             return False
         already_visits = set()
-            
+
         def sum_squared_digits(n: int) -> int:
             sum = 0
             while n:
                 remaining = n % 10
-                sum += remaining ** 2
+                sum += remaining**2
                 n = n // 10
             return sum
 
