@@ -18,3 +18,12 @@ class Solution:
                 return previous + 1
             maximum = max(current, maximum)
         return maximum
+
+    def replaceElements(self, arr: List[int]) -> List[int]:
+        results = [-1]
+        length = len(arr)
+        for i in range(1, length):
+            index = length - i
+            value = max(results[0], arr[index - 1])
+            results.insert(0, value)
+        return results
