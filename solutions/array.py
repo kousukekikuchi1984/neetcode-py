@@ -40,3 +40,12 @@ class Solution:
 
     def lengthOfLastWord(self, s: str) -> int:
         return len(s.rstrip().split(" ")[-1])
+
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        results = ""
+        for s in zip(*strs):
+            if len(set(s)) == 1:
+                results += s[0]
+            else:
+                break
+        return results
