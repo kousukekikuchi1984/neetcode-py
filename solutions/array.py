@@ -49,3 +49,18 @@ class Solution:
             else:
                 break
         return results
+
+    def generate(self, numRows: int) -> List[List[int]]:
+        results = [[1]]
+        for _ in range(numRows - 1):
+            prev = results[-1]
+            current = []
+            cursor = 0
+            while cursor <= len(prev):
+                left = 0 if cursor - 1 < 0 else prev[cursor - 1]
+                right = 0 if cursor == len(prev) else prev[cursor]
+                val = left + right
+                current.append(val)
+                cursor += 1
+            results.append(current)
+        return results
