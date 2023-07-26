@@ -64,3 +64,14 @@ class Solution:
                 cursor += 1
             results.append(current)
         return results
+
+    def numUniqueEmails(self, emails: List[str]) -> int:
+        cur = 0
+        while cur < len(emails):
+            email = emails[cur]
+            local, domain = email.split("@")
+            local = local.replace(".", "")
+            local = local.split("+")[0]
+            emails[cur] = f"{local}@{domain}"
+            cur += 1
+        return set(emails)
