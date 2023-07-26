@@ -27,3 +27,13 @@ class Solution:
             value = max(results[0], arr[index - 1])
             results.insert(0, value)
         return results
+
+    def isSubsequence(self, s: str, t: str) -> bool:
+        cur_s = cur_t = 0
+        while cur_s < len(s) and cur_t < len(t):
+            if s[cur_s] == t[cur_t]:
+                cur_s += 1
+                cur_t += 1
+            else:
+                cur_t += 1
+        return cur_s == len(s)
