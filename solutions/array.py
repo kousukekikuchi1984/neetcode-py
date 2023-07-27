@@ -81,20 +81,17 @@ class Solution:
         return nums[-k]
 
     def removeDuplicates(self, s: str, k: int) -> str:
-        prev = ""
-        while prev != s:
-            cur = 0
-            current = ""
-            seeks = ""
-            while cur < len(s):
-                if len(seeks) == 0 or seeks[-1] == s[cur]:
-                    seeks += s[cur]
-                elif len(seeks) > 0 and seeks[-1] != s[cur]:
-                    current += seeks
-                    seeks = s[cur]
-                if len(seeks) == k:
-                    seeks = ""
-                cur += 1
-            current += seeks
-            s, prev = current, s
-        return s
+        stack = []  # char: count
+
+        for c in s:
+            if stack and stack[-1][0] == c:
+                stack[-1][1] += 1
+            else:
+                stack.append([c, 1])
+            if stack[-1][1] == k:
+                stack.pop()
+
+        result = ""
+        for c in stack:
+            result += c[0] * c[1]
+        return result
