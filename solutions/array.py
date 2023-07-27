@@ -79,3 +79,22 @@ class Solution:
     def kthLargestNumber(self, nums: List[str], k: int) -> str:
         nums = sorted(nums, key=lambda x: int(x))
         return nums[-k]
+
+    def removeDuplicates(self, s: str, k: int) -> str:
+        prev = ""
+        while prev != s:
+            cur = 0
+            current = ""
+            seeks = ""
+            while cur < len(s):
+                if len(seeks) == 0 or seeks[-1] == s[cur]:
+                    seeks += s[cur]
+                elif len(seeks) > 0 and seeks[-1] != s[cur]:
+                    current += seeks
+                    seeks = s[cur]
+                if len(seeks) == k:
+                    seeks = ""
+                cur += 1
+            current += seeks
+            s, prev = current, s
+        return s
