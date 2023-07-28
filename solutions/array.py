@@ -104,3 +104,14 @@ class Solution:
             result = max(result, math.ceil(total / (i + 1)))
 
         return result
+
+    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+        count = 1
+        for placed in flowerbed:
+            if placed == 0:
+                count += 1
+            else:
+                n -= int((count - 1) / 2)
+                count = 0
+        n -= empty // 2
+        return n <= 0
