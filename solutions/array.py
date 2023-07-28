@@ -97,29 +97,10 @@ class Solution:
         return result
 
     def minimizeArrayValue(self, nums: List[int]) -> int:
-        def devide(left: int, right: int):
-            if left == right:
-                return nums[left]
-            if left + 1 == right:
-                return conquer(left, right)
-            center = int((left + right) / 2)
-            l = devide(left, center)
-            r = devide(center + 1, right)
-            if l < r:
-                return math.ceil((r + l) / 2)
-            elif l == r:
-                return l
-            else:
-                return l
-            
-        def conquer(left: int, right: int):
-            assert left + 1 == right
-            l, r = nums[left], nums[right]
-            if l < r:
-                return math.ceil((r + l) / 2)
-            elif l == r:
-                return l
-            else:
-                return l
+        result = total = nums[0]
 
-        return devide(0, len(nums) - 1)
+        for i in range(1, len(nums)):
+            total += nums[i]
+            result = max(result, math.ceil(total / (i + 1)))
+
+        return result
