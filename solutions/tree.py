@@ -144,6 +144,17 @@ class Solution:
         dfs(root)
         return result
 
+    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
+        def dfs(left: int, right: int):
+            if left > right:
+                return
+            center = int((left + right) / 2)
+            node = TreeNode(val=nums[center])
+            node.right = dfs(center + 1, right)
+            node.left = dfs(left, center - 1)
+            return node
+        return dfs(0, len(nums) - 1)
+
 
 class Codec:
 
