@@ -115,3 +115,17 @@ class Solution:
                 count = 0
         n -= empty // 2
         return n <= 0
+
+    def minFlipsMonoIncr(self, s: str) -> int:
+        left = 0
+        first_distance = len([c for c in s if c == "0"])
+        min_distance = first_distance
+        right = first_distance
+        for i in range(len(s)):
+            c = s[i]
+            if c == "1":
+                left += 1
+            else:
+                right -= 1
+            min_distance = min(min_distance, left + right)
+        return min_distance
