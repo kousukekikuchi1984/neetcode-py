@@ -138,3 +138,6 @@ class Solution:
             if num < 0:
                 count += 1
         return 1 if count % 2 == 0 else -1
+
+    def multiply(self, num1: str, num2: str) -> str:
+        return str(int(num1) * int(num2))
