@@ -110,3 +110,33 @@ class Solution:
 
         dfs("JFK")
         return result
+
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        queue = []
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
+                if matrix[i][j] == "1":
+                    queue.append((i, j))
+        if not queue:
+            return 0
+        max_size = 1
+        for _ in range(len(queue)):
+            while queue:
+                idx = queue.pop(0)
+                size = max_size + 1
+                found = True
+                for i in range(size):
+                    for j in range(size):
+                        row = idx[0] + i
+                        column = idx[1] + j
+                        if (
+                            not (
+                                0 <= row < len(matrix) and 0 <= column < len(matrix[0])
+                            )
+                            or matrix[row][column] == "0"
+                        ):
+                            found = False
+                if found:
+                    max_size = size
+                    queue.append(idx)
+        return max_size**2
