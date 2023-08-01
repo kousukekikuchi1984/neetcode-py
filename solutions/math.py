@@ -20,3 +20,30 @@ class Solution:
 
             already_visits.add(n)
             n = sum_squared_digits(n)
+
+    def isPalindrome(self, x: int) -> bool:
+        if x < 0:
+            return False
+        stack = []
+        num = x
+        count = 0
+        while num:
+            num = int(num // 10)
+            count += 1
+
+        is_even = count % 2 == 0
+
+        center = int(count / 2) if is_even else int((count - 1) / 2)
+        for _ in range(center):
+            stack.append(x % 10)
+            x = int(x // 10)
+        if not is_even:
+            x = int(x // 10)
+        while x:
+            s = stack.pop()
+            n = x % 10
+            if s != n:
+                return False
+            x = int(x // 10)
+
+        return True
