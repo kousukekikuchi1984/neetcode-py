@@ -112,31 +112,24 @@ class Solution:
         return result
 
     def maximalSquare(self, matrix: List[List[str]]) -> int:
-        queue = []
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                if matrix[i][j] == "1":
-                    queue.append((i, j))
-        if not queue:
-            return 0
-        max_size = 1
-        for _ in range(len(queue)):
-            while queue:
-                idx = queue.pop(0)
-                size = max_size + 1
-                found = True
-                for i in range(size):
-                    for j in range(size):
-                        row = idx[0] + i
-                        column = idx[1] + j
-                        if (
-                            not (
-                                0 <= row < len(matrix) and 0 <= column < len(matrix[0])
-                            )
-                            or matrix[row][column] == "0"
-                        ):
-                            found = False
-                if found:
-                    max_size = size
-                    queue.append(idx)
-        return max_size**2
+        rows = len(matrix)
+        columns = len(matrix[0])
+        cache = {}
+
+        def dfs(row: int, column: int) -> int:
+            idx = (row, column)
+            if row >= rows or column >= columns:
+                return 0
+            if idx in cache:
+                return cache[idx]
+            down = dfs(row + 1, column)
+            right = dfs(row, column + 1)
+            diag = dfs(row + 1, column + 1)
+            cache[idx] = 0
+            if matrix[row][column] == "1":
+                side_length = 1 + min(down, right, diag)
+                cache[idx] = side_length
+            return cache[idx]
+
+        dfs(0, 0)
+        return max(cache.values()) ** 2
