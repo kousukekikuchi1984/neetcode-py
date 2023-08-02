@@ -133,3 +133,27 @@ class Solution:
 
         dfs(0, 0)
         return max(cache.values()) ** 2
+
+    def checkIfPrerequisite(self, numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
+        def dfs(src: int, dest: int, seen: Dict[int, bool]) -> bool:
+            if src == dest:
+                return True
+            if src in seen:
+                return seen[src]
+            childs = []
+            for node in adj[src]:
+                child = dfs(node, dest, seen)
+                childs.append(child)
+            result = any(childs)
+            seen[src] = result
+            return result
+
+        adj = {n: [] for n in range(numCourses)}
+        for prerequisite in prerequisites:
+            adj[prerequisite[0]].append(prerequisite[1])
+        #
+        results = []
+        for query in queries:
+            result = dfs(query[0], query[1], {})
+            results.append(result)
+        return results
