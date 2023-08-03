@@ -160,29 +160,10 @@ class Solution:
         return True
 
     def gridGame(self, grid: List[List[int]]) -> int:
-        def calc_second(seen: Set[Tuple[int, int]]):
-            results = []
-            val = grid[0][0]
-            for column in range(len(grid[1])):
-                if (1, column) not in seen:
-                    val += grid[1][column]
-            results.append(val)
-            for column in range(1, len(grid[0])):
-                left = grid[1][column - 1] if (1, column-1) not in seen else 0
-                right = grid[0][column] if (0, column) not in seen else 0
-                val = val - left + right
-                results.append(val)
-            return max(results)
-
-        val = sum(grid[1]) + grid[0][0]
-        seen = set([(1, column) for column in range(len(grid[1]))])
-        seen.add((0, 0))
-        results = []
-        results.append(calc_second(seen))
-        for column in range(1, len(grid[1])):
-            val = val - grid[1][column - 1] + grid[0][column]
-            seen.remove((1, column - 1))
-            seen.add((0, column))
-            result = calc_second(seen)
-            results.append(result)
-        return max(results)
+        result = float("inf")
+        left, right = 0, sum(grid[0])
+        for a, b in zip(grid[0], grid[1]):
+            right -= a
+            result = min(result, max(left, right))
+            left += b
+        return result
