@@ -167,3 +167,23 @@ class Solution:
             result = min(result, max(left, right))
             left += b
         return result
+
+    def validPalindrome(self, s: str) -> bool:
+        i, j = 0, len(s) - 1
+
+        def util(i: int, j: int) -> bool:
+            while i < j:
+                if s[i] == s[j]:
+                    i += 1
+                    j -= 1
+                else:
+                    return False
+            return True
+
+        while i < j:
+            if s[i] == s[j]:
+                i += 1
+                j -= 1
+            else:
+                return util(i + 1, j) or util(i, j - 1)
+        return True
