@@ -58,3 +58,15 @@ class Solution:
                 heapq.heappop(heap)
             results[q] = heap[0][0] if heap else -1
         return [results[q] for q in queries]
+
+    def removeCoveredIntervals(self, intervals: List[List[int]]) -> int:
+        intervals = sorted(intervals, key=lambda x: x[0])
+        target = intervals[0]
+        covered = 0
+        for i in range(1, len(intervals)):
+            if target[1] < intervals[i][1]:
+                # not covered: move target to here
+                target = intervals[i]
+            else:
+                covered += 1
+        return len(intervals) - covered
