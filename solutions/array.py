@@ -187,3 +187,9 @@ class Solution:
             else:
                 return util(i + 1, j) or util(i, j - 1)
         return True
+
+    def rotate(self, nums: List[int], k: int) -> None:
+        copied = nums.copy()
+        for i in range(len(nums)):
+            index = i + k
+            nums[i] = copied[index % len(nums)]
