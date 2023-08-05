@@ -25,3 +25,23 @@ class Solution:
             else:
                 stack.append(s[i])
         return "".join(stack)
+
+    def reverse(self, x: int) -> int:
+        if x == 0:
+            return 0
+        minus = -1 if x < 0 else 1
+        x = abs(x)
+        queue = []
+        while x:
+            n = x % 10
+            queue.append(n)
+            x = x // 10
+
+        num = queue.pop(0)
+        while queue:
+            n = queue.pop(0)
+            num = num * 10 + n
+        result = num * minus
+        if - 2**31 > result or result > 2**31 + 1:
+            return 0
+        return result
