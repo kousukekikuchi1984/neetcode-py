@@ -157,3 +157,50 @@ class Solution:
             result = dfs(query[0], query[1], {})
             results.append(result)
         return results
+
+    def shortestAlternatingPaths(self, n: int, redEdges: List[List[int]], blueEdges: List[List[int]]) -> List[int]:
+        def dfs(edge: int, count: int, color: str):
+            results = blues if color == "blue" else reds
+            print(edge, count, color)
+            if results[edge] in (-1, 0) or results[edge] > count:
+                results[edge] = count
+                if color == "red":
+                    adjacents = blue_adjs
+                    color = "blue"
+                else:
+                    adjacents = red_adjs
+                    color = "red"
+                print(adjacents)
+                adjs = adjacents.get(edge)
+                print(adjs)
+                if adjs:
+                    for adj in adjs:
+                        dfs(adj, count + 1, color)
+
+        def adjacents(edges: List[List[int]]) -> dict:
+            adjs = {}
+            for edge in edges:
+                if edge[0] == edge[1]:
+                    continue
+                if edge[0] in adjs:
+                    adjs[edge[0]].add(edge[1])
+                else:
+                    adjs[edge[0]] = set([edge[1]])
+            return adjs
+
+        red_adjs = adjacents(redEdges)
+        blue_adjs = adjacents(blueEdges)
+        blues = [-1] * n
+        reds = [-1] * n
+        dfs(0, 0, "red") or dfs(0, 0, "blue")
+        results = []
+        for blue, red in zip(reds, blues):
+            if blue == -1 and red == -1:
+                results.append(-1)
+            elif blue > -1 and red == -1:
+                results.append(blue)
+            elif blue == -1 and red > -1:
+                results.append(red)
+            else:
+                results.append(min(blue, red))
+        return results
