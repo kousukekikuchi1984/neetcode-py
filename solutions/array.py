@@ -193,3 +193,12 @@ class Solution:
         for i in range(len(nums)):
             index = i + k
             nums[i] = copied[index % len(nums)]
+
+    def shuffle(self, nums: List[int], n: int) -> List[int]:
+        before = nums[:n]
+        after = nums[n:]
+        for i in range(n):
+            nums[i * 2] = before[i]
+            nums[i * 2 + 1] = after[i]
+        return nums
+
