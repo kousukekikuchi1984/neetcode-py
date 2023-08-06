@@ -67,3 +67,14 @@ class Solution:
                     prev = prev.next
                 prev.next = cur
         return dummy.next
+
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:
+        visit = set()
+        while headA:
+            visit.add(headA)
+            headA = headA.next
+        while headB:
+            if headB in visit:
+                return headB
+            headB = headB.next
+        return None
