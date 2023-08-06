@@ -202,3 +202,12 @@ class Solution:
             nums[i * 2 + 1] = after[i]
         return nums
 
+    def diagonalSum(self, mat: List[List[int]]) -> int:
+        diag = 0
+        n = len(mat)
+        for i in range(n):
+            diag += mat[i][i]
+            if i == n - i - 1:
+                continue
+            diag += mat[n - i - 1][i]
+        return diag
