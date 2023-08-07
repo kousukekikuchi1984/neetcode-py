@@ -173,3 +173,15 @@ class Solution:
             for column in range(len(triangle[row])):
                 dp[column] = min(dp[column], dp[column + 1]) + triangle[row][column]
         return dp[0]
+
+    def tribonacci(self, n: int) -> int:
+        if n == 0:
+            return 0
+        elif n in (1, 2):
+            return 1
+        dp = [0] * (n + 1)
+        dp[1] = 1
+        dp[2] = 1
+        for i in range(3, n + 1):
+            dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
+        return dp[n]
