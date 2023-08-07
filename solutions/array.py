@@ -211,3 +211,19 @@ class Solution:
                 continue
             diag += mat[n - i - 1][i]
         return diag
+
+    def maxAlternatingSum(self, nums: List[int]) -> int:
+        result = 0
+        prev = nums[0]
+        used_as_plus = True
+        for i in range(1, len(nums)):
+            if used_as_plus and nums[i] <= nums[i - 1]:
+                result += prev
+                used_as_plus = False
+            elif not used_as_plus and nums[i] >= nums[i - 1]:
+                result -= prev
+                used_as_plus = True
+            prev = nums[i]
+        if used_as_plus:
+            result += prev
+        return result
