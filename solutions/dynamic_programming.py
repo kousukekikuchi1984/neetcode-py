@@ -166,3 +166,25 @@ class Solution:
                     if p[row - 2] == "." or p[row - 2] == s[column - 1]:
                         dp[row][column] |= dp[row][column - 1]
         return dp[len(p)][len(s)]
+
+    def minimumTotal(self, triangle: List[List[int]]) -> int:
+        dp = {}  # path: sum
+
+        def dfs(height: int, current_path: Tuple[int]) -> int:
+            if current_path in dp:
+                return dp[current_path]
+            if height == len(triangle) - 1:
+                dp[current_path] = triangle[height][current_path[-1]]
+                return dp[current_path]
+            lcur = current_path[-1]
+            rcur = lcur + 1
+            left = dfs(height + 1, current_path + (lcur,))
+            right  = float("inf")
+            if rcur <= len(triangle[height]):
+                right = dfs(height + 1, current_path + (rcur,))
+            val = min(left, right) + triangle[height][current_path[-1]]
+            dp[current_path] = val
+            return val
+
+        return dfs(0, (0,))
+
