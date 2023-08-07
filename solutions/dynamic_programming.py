@@ -168,23 +168,8 @@ class Solution:
         return dp[len(p)][len(s)]
 
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        dp = {}  # path: sum
-
-        def dfs(height: int, current_path: Tuple[int]) -> int:
-            if current_path in dp:
-                return dp[current_path]
-            if height == len(triangle) - 1:
-                dp[current_path] = triangle[height][current_path[-1]]
-                return dp[current_path]
-            lcur = current_path[-1]
-            rcur = lcur + 1
-            left = dfs(height + 1, current_path + (lcur,))
-            right  = float("inf")
-            if rcur <= len(triangle[height]):
-                right = dfs(height + 1, current_path + (rcur,))
-            val = min(left, right) + triangle[height][current_path[-1]]
-            dp[current_path] = val
-            return val
-
-        return dfs(0, (0,))
-
+        dp = triangle[-1]
+        for row in range(len(triangle) - 2, -1, -1):
+            for column in range(len(triangle[row])):
+                dp[column] = min(dp[column], dp[column + 1]) + triangle[row][column]
+        return dp[0]
