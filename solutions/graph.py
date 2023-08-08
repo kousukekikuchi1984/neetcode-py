@@ -191,3 +191,30 @@ class Solution:
                         q.append((nei, length + 1, "BLUE"))
 
         return answer
+
+    def openLock(self, deadends: List[str], target: str) -> int:
+        # bfs approach
+        visit = set()
+        never = set(deadends)
+        plus = {str(i): str((i + 1) % 10) for i in range(10)}
+        minus = {str(i): str((i - 1) % 10) for i in range(10)}
+        queue = ["0000"]
+        result = 0
+        while queue:
+            result += 1
+            for _ in range(len(queue)):
+                cur = queue.pop(0)
+                if cur in never:
+                    continue
+                if cur in visit:
+                    continue
+                if cur == target:
+                    return result
+                visit.add(cur)
+                for i in range(4):
+                    next_plus = cur[:i] + plus[cur[i]] + cur[i+1:]
+                    queue.append(next_plus)
+                    next_minus = cur[:i] + minus[cur[i]] + cur[i+1:]
+                    queue.append(next_minus)
+        return -1
+
