@@ -58,3 +58,20 @@ class Solution:
                 stack.append(i)
         res = "/" + "/".join(stack)
         return res
+
+    def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
+        stack = []
+        while pushed:
+            cur = pushed.pop(0)
+            if cur == popped[0]:
+                popped.pop(0)
+                continue
+            if stack and stack[-1] == popped[0]:
+                stack.pop()
+                popped.pop(0)
+            stack.append(cur)
+
+        while stack:
+            if stack.pop() != popped.pop(0):
+                return False
+        return True
