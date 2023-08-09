@@ -185,3 +185,20 @@ class Solution:
         for i in range(3, n + 1):
             dp[i] = dp[i-1] + dp[i-2] + dp[i-3]
         return dp[n]
+
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        count = Counter(nums)
+        nums = sorted(list(set(nums)))
+
+        earn1, earn2 = 0, 0
+        for i in range(len(nums)):
+            cur = nums[i] * count[nums[i]]
+            if i > 0 and nums[i] == nums[i - 1] + 1:
+                tmp = earn2
+                earn2 = max(cur + earn1, earn2)
+                earn1 = tmp
+            else:
+                tmp = earn2
+                earn2 = cur + earn2
+                earn1 = tmp
+        return earn2
