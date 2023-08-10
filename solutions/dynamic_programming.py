@@ -206,17 +206,10 @@ class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
         dp = [0] * (target + 1)
 
-        def dfs(target: int, count: int) -> int:
-            if target < 0:
-                return 0
-            if target == 0:
-                return count + 1
-            if dp[target] > 0:
-                return dp[target]
-            c = 0
+        nums.sort()
+        for i in range(1, target + 1):
             for num in nums:
-                c += dfs(target - num, count)
-            dp[target] = c
-            return c
-
-        return dfs(target, 0)
+                if num > i:
+                    break
+                dp[i] = dp[i - num]
+        return dp[target]
