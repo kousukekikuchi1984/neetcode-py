@@ -227,3 +227,15 @@ class Solution:
         if used_as_plus:
             result += prev
         return result
+
+    def singleNonDuplicate(self, nums: List[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        cur = 0
+        while cur + 1 < len(nums):
+            left = nums[cur]
+            right = nums[cur + 1]
+            if left != right:
+                return left
+            cur = cur + 2
+        return nums[cur]
