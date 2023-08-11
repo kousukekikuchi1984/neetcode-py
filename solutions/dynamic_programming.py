@@ -205,6 +205,7 @@ class Solution:
 
     def combinationSum4(self, nums: List[int], target: int) -> int:
         dp = [0] * (target + 1)
+        dp[0] = 1
 
         nums.sort()
         for i in range(1, target + 1):
@@ -213,3 +214,15 @@ class Solution:
                     break
                 dp[i] = dp[i - num]
         return dp[target]
+
+    def numSquares(self, n: int) -> int:
+        dp = list(range(n + 1))  # 1
+        max_num = int(n ** 0.5)
+        for num in range(2, max_num + 1):
+            val = num ** 2
+            for i in range(0, n + 1):
+                if i + val < n:
+                    dp[i + val] = min(dp[i] + val, dp[i + val])
+                else:
+                    break
+        return dp[-1]
