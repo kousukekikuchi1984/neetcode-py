@@ -228,19 +228,15 @@ class Solution:
         return dp[-1]
 
     def integerBreak(self, n: int) -> int:
-        max_value = 0
-        for i in range(2, n + 1):
-            devide = int(n / i)
-            remaining = n % i
-            nums = [devide] * i
-            product = 1
-            for cur in range(i):
-                if remaining:
-                    remaining -= 1
-                    nums[cur] += 1
-                product *= nums[cur]
-            if max_value < product:
-                max_value = product
-            else:
-                return max_value
-        return max_value
+        dp = {1: 1}
+        def dfs(num):
+            if num in dp:
+                return dp[num]
+
+            dp[num] = 0 if num == n else num
+            for i in range(1, num):
+                val = dfs(i) * dfs(num - i)
+                dp[num] = max(dp[num], val)
+            return dp[num]
+
+        return dfs(n)
