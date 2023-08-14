@@ -226,3 +226,21 @@ class Solution:
                 else:
                     break
         return dp[-1]
+
+    def integerBreak(self, n: int) -> int:
+        max_value = 0
+        for i in range(2, n + 1):
+            devide = int(n / i)
+            remaining = n % i
+            nums = [devide] * i
+            product = 1
+            for cur in range(i):
+                if remaining:
+                    remaining -= 1
+                    nums[cur] += 1
+                product *= nums[cur]
+            if max_value < product:
+                max_value = product
+            else:
+                return max_value
+        return max_value
