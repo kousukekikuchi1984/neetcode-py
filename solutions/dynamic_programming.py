@@ -10,15 +10,15 @@ class Solution:
         return min(dp[len(cost) - 1], dp[len(cost) - 2])
 
     def rob(self, nums: List[int]) -> int:
-        def helper(nums: List[int]):
-            rob1, rob2 = 0, 0
-            for n in nums:
-                new_rob = max(rob1 + n, rob2)
-                rob1 = rob2
-                rob2 = new_rob
-            return rob2
-
-        return max(nums[0], helper(nums[1:]), helper(nums[:-1]))
+        if len(nums) == 1:
+            return nums[0]
+        elif len(nums) == 2:
+            return max(nums)
+        dp = [0] * len(nums)
+        dp[0] = nums[0]; dp[1] = nums[1]
+        for i in range(2, len(nums)):
+            dp[i] = max(dp[:i - 1]) + nums[i]
+        return max(dp[-1], dp[-2])
 
     def numDecodings(self, s: str) -> int:
         dp = {len(s): 1}
