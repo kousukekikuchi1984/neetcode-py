@@ -285,3 +285,37 @@ class Solution:
         if len(nums) < 2:
             return max(nums)
         return max(helper(nums[1:]), helper(nums[:-1]))
+
+    def longestPalindrome(self, s: str) -> str:
+        chars = ""
+        length = 0
+        for i in range(len(s)):
+            left = right = i
+            while left >= 0 and right < len(s):
+                if s[left] == s[right]:
+                    # palindromic
+                    tmp = s[left:right + 1]
+                    tmp_length = len(tmp)
+                    if tmp_length > length:
+                        length = tmp_length
+                        chars = tmp
+                    left -= 1
+                    right += 1
+                else:
+                    break
+
+        for i in range(len(s)):
+            left = i
+            right = i + 1
+            while left >= 0 and right < len(s):
+                if s[left] == s[right]:
+                    tmp = s[left:right + 1]
+                    tmp_length = len(tmp)
+                    if tmp_length > length:
+                        length = tmp_length
+                        chars = tmp
+                    left -= 1
+                    right += 1
+                else:
+                    break
+        return chars
