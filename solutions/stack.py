@@ -75,3 +75,28 @@ class Solution:
             if stack.pop() != popped.pop(0):
                 return False
         return True
+
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        def lowerbound(nums: List[int], target: int) -> int:
+            left = 0
+            right = len(nums)
+            while left < right:
+                mid = left + (right - left) // 2
+                if nums[mid] >= target:
+                    right = mid
+                else:
+                    left = mid + 1
+            return left
+
+        if not nums:
+            return 0
+        stack = []  # sorted
+        for num in nums:
+            if not stack or stack[-1] < num:
+                stack.append(num)
+                continue
+            lowerbound = self.lowerbound(stack, num)
+            stack[lowerbound] = num
+        return len(stack)
+
+
