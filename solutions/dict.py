@@ -25,3 +25,14 @@ class Solution:
             if (right - left + 1) == n:
                 res = min(res, diff1, diff2)
         return res
+
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        if len(pattern) != len(s.split(" ")):
+            return False
+        patterns = defaultdict(list)
+        for i, c in enumerate(pattern):
+            patterns[c].append(i)
+        strs = defaultdict(list)
+        for i, c in enumerate(s.split(" ")):
+            strs[c].append(i)
+        return list(patterns.values()) == list(strs.values())
