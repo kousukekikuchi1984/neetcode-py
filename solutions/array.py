@@ -250,3 +250,18 @@ class Solution:
             mapTS[c2] = c1
 
         return True
+
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        len1, len2 = len(str1), len(str2)
+
+        def is_divosor(length) -> bool:
+            if len1 % length or len2 % length:
+                return False
+            f1, f2 = len1 // length, len2 // length
+            return str1[:length] * f1 == str1 and str1[:length] * f2 == str2
+
+        for length in range(min(len1, len2), 0, -1):
+            if is_divosor(length):
+                return str1[:length]
+        return ""
+
