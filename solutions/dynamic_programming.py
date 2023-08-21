@@ -332,23 +332,9 @@ class Solution:
         return dp[amount] if dp[amount] != float("inf") else -1
 
     def countPalindromicSubsequence(self, s: str) -> int:
-        results = set()
-        visits = set()
-        def dfs(left: int, right: int):
-            if left >= right:
-                return
-            if (left, right) in visits:
-                return
-            visits.add((left, right))
-            if s[left] == s[right]:
-                for c in s[left + 1:right]:
-                    result = s[left] + c + s[right]
-                    results.add(result)
-                dfs(left + 1, right - 1)
-            else:
-                dfs(left + 1, right) or dfs(left, right - 1)
-
-        left = 0
-        right = len(s) - 1
-        dfs(left, right)
-        return len(results)
+        count = 0
+        chars = set(s)
+        for char in chars:
+            first, last = s.find(char), s.rfind(char)
+            count += len(set(s[first + 1: last]))
+        return count
