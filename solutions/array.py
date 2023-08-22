@@ -265,3 +265,42 @@ class Solution:
                 return str1[:length]
         return ""
 
+    def generateMatrix(self, n: int) -> List[List[int]]:
+        # rule: cursor: (row, column)
+        # cursor state: right, down, left, up
+        matrix = [[0] * n for _ in range(n)]
+        cursor = (0, 0)
+        state = 0
+        for i in range(1, n * n + 1):
+            row = cursor[0]; column = cursor[1]
+            matrix[row][column] = i
+            up = (row - 1, column)
+            down = (row + 1, column)
+            left = (row, column - 1)
+            right = (row, column + 1)
+            match state:
+                case 0:
+                    if right[1] == n or matrix[right[0]][right[1]] > 0:
+                        cursor = down
+                        state = 1
+                    else:
+                        cursor = right
+                case 1:
+                    if down[0] == n or matrix[down[0]][down[1]] > 0:
+                        cursor = left
+                        state = 2
+                    else:
+                        cursor = down
+                case 2:
+                    if matrix[left[0]][left[1]] > 0:
+                        cursor = up
+                        state = 3
+                    else:
+                        cursor = left
+                case 3:
+                    if matrix[up[0]][up[1]] > 0:
+                        cursor = right
+                        state = 0
+                    else:
+                        cursor = up
+        return matrix
