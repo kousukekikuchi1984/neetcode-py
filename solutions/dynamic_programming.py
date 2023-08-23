@@ -338,3 +338,22 @@ class Solution:
             first, last = s.find(char), s.rfind(char)
             count += len(set(s[first + 1: last]))
         return count
+
+    def rearrangeSticks(self, n: int, k: int) -> int:
+        # base case:
+        #   k == 0 or n == 0 -> 0
+        #   n == k ->  1
+        dp = [[-1] * k for _ in range(n)]
+
+        def dfs(row: int, column: int) -> int:
+            if row == column:
+                return 1
+            if row == 0 or column == 0:
+                return 0
+            if dp[row - 1][column - 1] != -1:
+                return dp[row - 1][column - 1]
+            #
+            dp[row - 1][column - 1] = (row - 1) * dfs(row - 1, column) + dfs(row - 1, column - 1)
+            return dp[row - 1][column - 1]
+
+        return dfs(n, k) % (10 ** 9 + 7)
