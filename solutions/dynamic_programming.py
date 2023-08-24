@@ -340,20 +340,8 @@ class Solution:
         return count
 
     def rearrangeSticks(self, n: int, k: int) -> int:
-        # base case:
-        #   k == 0 or n == 0 -> 0
-        #   n == k ->  1
-        dp = [[-1] * k for _ in range(n)]
-
-        def dfs(row: int, column: int) -> int:
-            if row == column:
-                return 1
-            if row == 0 or column == 0:
-                return 0
-            if dp[row - 1][column - 1] != -1:
-                return dp[row - 1][column - 1]
-            #
-            dp[row - 1][column - 1] = (row - 1) * dfs(row - 1, column) + dfs(row - 1, column - 1)
-            return dp[row - 1][column - 1]
-
-        return dfs(n, k) % (10 ** 9 + 7)
+        dp = {(1,1): 1}
+        for N in range(2, n + 1):
+            for K in range(1, k + 1):
+                dp[(N, K)] = dp.get((N - 1, K - 1), 0) + (N - 1) * dp.get((N - 1, K), 0)
+        return dp[(n, k)] % (10 ** 9 + 7)
