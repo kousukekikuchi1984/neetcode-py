@@ -304,3 +304,25 @@ class Solution:
                     else:
                         cursor = up
         return matrix
+
+    def totalFruit(self, fruits: List[int]) -> int:
+        left = 0
+        right = 0
+        total = 0
+        res = 0
+        picked = defaultdict(int)
+        while right < len(fruits):
+            type = fruits[right]
+            picked[type] += 1
+            right += 1
+            total += 1
+            while len(picked) > 2:
+                l = fruits[left]
+                picked[l] -= 1
+                total -= 1
+                if picked[l] == 0:
+                    picked.pop(l)
+                left += 1
+
+            res = max(res, total)
+        return res
