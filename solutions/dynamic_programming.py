@@ -345,3 +345,21 @@ class Solution:
             for K in range(1, k + 1):
                 dp[(N, K)] = dp.get((N - 1, K - 1), 0) + (N - 1) * dp.get((N - 1, K), 0)
         return dp[(n, k)] % (10 ** 9 + 7)
+
+    def stoneGame(self, piles: List[int]) -> bool:
+        dp = {}
+
+        def dfs(left: int, right: int) -> int:
+            if left > right:
+                return 0
+            if (left, right) in dp:
+                return dp[(left, right)]
+
+            even = True if (right - left) % 2 else False
+            left_value = piles[left] if even else 0
+            right_value = piles[right] if even else 0
+
+            dp[(left, right)] = max(dfs(left + 1, right) + left_value, dfs(left, right - 1) + right_value)
+            return dp[(left, right)]
+        
+        return dfs(0, len(piles) - 1) > sum(piles) // 2
