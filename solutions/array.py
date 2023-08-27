@@ -326,3 +326,37 @@ class Solution:
 
             res = max(res, total)
         return res
+
+    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+        visits = set()
+        def next(row: int, column: int, state: str) -> Tuple[int, int, str]:
+            assert state in ("up", "right", "down", "left")
+            if state == "right":
+                if column + 1 >= len(matrix[0]) or (row, column + 1) in visits:
+                    return next(row, column, "down")
+                else:
+                    return (row, column + 1, "right")
+            elif state == "down":
+                if row + 1 >= len(matrix) or (row + 1, column) in visits:
+                    return next(row, column, "left")
+                else:
+                    return (row + 1, column, "down")
+            elif state == "left":
+                if column == 0 or (row, column - 1) in visits:
+                    return next(row, column, "up")
+                else:
+                    return (row, column - 1, "left")
+            else:
+                if row == 0 or (row - 1, column) in visits:
+                    return next(row, column, "right")
+                else:
+                    return (row - 1, column, "up")
+
+        results = []
+        state = "right"
+        row = column = 0
+        for _ in range(len(matrix) * len(matrix[0])):
+            visits.add((row, column))
+            results.append(matrix[row][column])
+            row, column, state = next(row, column, state)
+        return results
