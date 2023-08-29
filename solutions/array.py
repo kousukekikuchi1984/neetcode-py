@@ -360,3 +360,12 @@ class Solution:
             results.append(matrix[row][column])
             row, column, state = next(row, column, state)
         return results
+
+    def findDifferentBinaryString(self, nums: List[str]) -> str:
+        length = len(nums[0])
+        numset = set(nums)
+        for i in range(2 ** length):
+            binary = bin(i)[2:].zfill(length)
+            if binary not in numset:
+                return binary
+        assert False, "*** unreachable"
