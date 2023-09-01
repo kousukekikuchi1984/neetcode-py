@@ -99,4 +99,22 @@ class Solution:
             stack[lowerbound] = num
         return len(stack)
 
+    def maxSumMinProduct(self, nums: List[int]) -> int:
+        result = 0
+        stack = []
+        prefix = [0]
+        for n in nums:
+            prefix.append(prefix[-1] + n)
+        for i, n in enumerate(nums):
+            new_start = i
+            while stack and stack[-1][1] > n:
+                start, val = stack.pop()
+                total = prefix[i] - prefix[start]
+                result = max(result, val * total)
+                new_start = start
+            stack.append((new_start, n))
 
+        for start, val in stack:
+            total = prefix[len(nums)] - prefix[start]
+            result = max(result, val * total)
+        return result % (10 ** 9 + 7)
