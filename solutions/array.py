@@ -388,3 +388,13 @@ class Solution:
             dp[i] = res
             return res
         return dfs(0)
+
+    def partitionString(self, s: str) -> int:
+        letters = set()
+        res = 1
+        for i in range(len(s)):
+            if s[i] in letters:
+                res += 1
+                letters = set()
+            letters.add(s[i])
+        return res
