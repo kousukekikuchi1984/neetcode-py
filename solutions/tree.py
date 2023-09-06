@@ -155,6 +155,26 @@ class Solution:
             return node
         return dfs(0, len(nums) - 1)
 
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        if root is None:
+            return True
+        left = [root.left]
+        right = [root.right]
+        while left and right:
+            l = left.pop()
+            r = right.pop()
+            if l is None and r is None:
+                continue
+            if l and not r or not l and r:
+                return False
+            if l.val != r.val:
+                return False
+            left.append(l.right)
+            right.append(r.left)
+            left.append(l.left)
+            right.append(r.right)
+        return True
+
 
 class Codec:
 
@@ -218,24 +238,3 @@ class Codec:
                 if (r, c) in pac and (r, c) in atl:
                     res.append([r, c])
         return res
-
-class Solution:
-    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        if root is None:
-            return True
-        left = [root.left]
-        right = [root.right]
-        while left and right:
-            l = left.pop()
-            r = right.pop()
-            if l is None and r is None:
-                continue
-            if l and not r or not l and r:
-                return False
-            if l.val != r.val:
-                return False
-            left.append(l.right)
-            right.append(r.left)
-            left.append(l.left)
-            right.append(r.right)
-        return True
