@@ -175,6 +175,20 @@ class Solution:
             right.append(r.right)
         return True
 
+    def trimBST(self, root: Optional[TreeNode], low: int, high: int) -> Optional[TreeNode]:
+        def dfs(node: Optional[TreeNode]) -> Optional[TreeNode]:
+            if node is None:
+                return None
+            if low <= node.val <= high:
+                node.right = dfs(node.right)
+                node.left = dfs(node.left)
+                return node
+            if low > node.val:
+                return dfs(node.right)
+            if high < node.val:
+                return dfs(node.left)
+        return dfs(root)
+
 
 class Codec:
 
