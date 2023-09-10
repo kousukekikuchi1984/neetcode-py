@@ -365,16 +365,11 @@ class Solution:
         return dfs(0, len(piles) - 1) > sum(piles) // 2
 
     def canReach(self, s: str, minJump: int, maxJump: int) -> bool:
-        length = len(s) - 1
-        dp = [False] * len(s)
-        dp[0] = True
-        for i in range(length):
-            if dp[i] and s[i] == "0":
-                left = i + minJump
-                right = min(i + maxJump, length)
-                for j in range(left, right + 1):
-                    if s[j] == "0":
-                        dp[j] = True
-                    if dp[-1]:
-                        return dp[-1]
-        return False
+        window = deque([0])
+
+        for i in range(1, len(s)):
+            if window and window[0] + maxJump < i:
+                window.popleft()
+            if s[i] == "0" and window and window[0] + minJump <= i:
+                window.append(i)
+        return window and window[-1] == len(s) - 1
