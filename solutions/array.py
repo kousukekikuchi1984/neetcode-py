@@ -398,3 +398,22 @@ class Solution:
                 letters = set()
             letters.add(s[i])
         return res
+
+    def moveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        should_move = []
+        keep = []
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                should_move.append(i)
+            else:
+                keep.append(i)
+        for i in range(len(nums)):
+            if keep:
+                nums[i] = keep.pop(0)
+            else:
+                nums[i] = should_move.pop(0)
+
+
