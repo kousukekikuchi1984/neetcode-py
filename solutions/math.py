@@ -63,3 +63,16 @@ class Solution:
         if low % 2 == 0:
             low += 1
         return len(range(low, high + 1, 2))
+
+    def convertToTitle(self, columnNumber: int) -> str:
+        diff = ord("A") - 1
+        results = []
+        while columnNumber:
+            remaining = columnNumber % 26
+            columnNumber = columnNumber // 26
+            if remaining == 0:
+                remaining = 26
+                columnNumber -= 1
+            char = chr(diff + remaining)
+            results.insert(0, char)
+        return "".join(results)
