@@ -39,3 +39,28 @@ class Solution:
                 left = mid + 1
             else:
                 return mid
+
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        left = 0
+        right = len(nums) - 1
+        finds = None
+        while left <= right:
+            center = (left + right) // 2
+            if nums[center] < target:
+                left = center + 1
+            elif nums[center] == target:
+                finds = center
+                break
+            elif nums[center] > target:
+                right = center - 1
+            else:
+                assert False, "*** unreachable"
+        #
+        if finds is None:
+            return [-1, -1]
+        left = right = finds
+        while left > 0 and nums[left - 1] == target:
+            left -= 1
+        while right < len(nums) - 1 and nums[right + 1] == target:
+            right += 1
+        return [left, right]
