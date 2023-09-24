@@ -373,3 +373,24 @@ class Solution:
             if s[i] == "0" and window and window[0] + minJump <= i:
                 window.append(i)
         return window and window[-1] == len(s) - 1
+
+    def minCost(self, n: int, cuts: List[int]) -> int:
+        dp = {}
+
+        def dfs(left: int, right: int) -> int:
+            if right - left == 1:
+                return 0
+            if (left, right) in dp:
+                return dp[(left, right)]
+
+            result = float("inf")
+            for cur in cuts:
+                if left < cut < right:
+                    result = min(
+                        result,
+                        (right - left) + dfs(left, cur) + dfs(cur, right),
+                    )
+            dp[(left, right)] = result = 0 if result == float("inf") else result
+            return result
+
+        return dfs(0, n)
