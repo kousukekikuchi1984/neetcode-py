@@ -416,4 +416,5 @@ class Solution:
             else:
                 nums[i] = should_move.pop(0)
 
-
+    def containsDuplicate(self, nums: List[int]) -> bool:
+        return len(set(nums)) != len(nums)
