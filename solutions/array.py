@@ -418,3 +418,12 @@ class Solution:
 
     def containsDuplicate(self, nums: List[int]) -> bool:
         return len(set(nums)) != len(nums)
+
+    def missingNumber(self, nums: List[int]) -> int:
+        # first solution
+        # return (set(range(len(nums) + 1)) - set(nums)).pop()
+        # followup solution
+        res = len(nums)
+        for i in range(len(nums)):
+            res += (i - nums[i])
+        return res
