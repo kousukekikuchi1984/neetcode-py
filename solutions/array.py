@@ -427,3 +427,22 @@ class Solution:
         for i in range(len(nums)):
             res += (i - nums[i])
         return res
+
+    def rotate(self, matrix: List[List[int]]) -> None:
+        """
+        Do not return anything, modify matrix in-place instead.
+        """
+        #
+        left, right = 0, len(matrix) - 1
+        while right > left:
+            for i in range(right - left):
+                top, buttom = left, right
+
+                topleft = matrix[top][left + i]
+                matrix[top][left + i] = matrix[bottom - i][left]
+                matrix[bottom - i][left] = matrix[bottom][right - i]
+                matrix[bottom][right - i] = matrix[top + i][right]
+                matrix[top + i][right] = topleft
+            right -= 1
+            left += 1
+
