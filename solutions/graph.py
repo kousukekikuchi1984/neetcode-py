@@ -236,3 +236,41 @@ class Solution:
             prev = curr
             curr = nxtPair
         return dummy.next
+
+    def makesquare(self, matchsticks: List[int]) -> bool:
+        total = sum(matchsticks)
+        length_per_side = total // 4
+        if length_per_side * 4 != total:
+            return False
+
+        counter = defaultdict(int)
+        for length in matchsticks:
+            counter[length] += 1
+        #
+        def dfs(counter: dict, used: int, sides: int, cur: int) -> bool:
+            if counter[used] <= 0:
+                return False
+            cur += used
+            counter[used] -= 1
+            if cur == length_per_side:
+                cur = 0
+                sides += 1
+                if cur == 0 and sides == 4:
+                    return True
+            if cur > length_per_side:
+                counter[used] += 1
+                return False
+            results = []
+            for key in counter.keys():
+                result = dfs(counter, key, sides, cur)
+                if result:
+                    return True
+            counter[used] += 1
+            return False
+
+        for key in counter.keys():
+            result = dfs(counter, key, 0, 0)
+            if result:
+                return True
+        return False
+
